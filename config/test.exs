@@ -16,3 +16,5 @@ config :pms_api, PmsApi.Repo,
   database: "pms_api_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :bcrypt_elixir, :log_rounds, 4
