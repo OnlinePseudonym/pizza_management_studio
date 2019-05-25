@@ -7,5 +7,6 @@ defmodule PmsApiWeb.Router do
 
   scope "/api", PmsApiWeb do
     pipe_through :api
+    resources "/users", UserController, except: [:new, :edit]
   end
 end
