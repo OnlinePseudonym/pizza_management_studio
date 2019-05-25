@@ -16,4 +16,16 @@ defmodule PmsApiWeb.UserView do
       is_active: user.is_active,
       is_manager: user.is_manager}
   end
+
+  def render("sign_in.json", %{user: user}) do
+    %{
+      date: %{
+        user: %{
+          id: user.id,
+          email: user.email,
+          isManager: user.is_manager
+        }
+      }
+    }
+  end
 end
