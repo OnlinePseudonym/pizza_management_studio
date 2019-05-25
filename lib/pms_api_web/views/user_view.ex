@@ -28,4 +28,8 @@ defmodule PmsApiWeb.UserView do
       }
     }
   end
+
+  def render("401.json", %{message: message}) do
+    %{errors: %{detail: message}}
+  end
 end
