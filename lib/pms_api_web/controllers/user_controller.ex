@@ -45,13 +45,17 @@ defmodule PmsApiWeb.UserController do
     case PmsApi.Auth.authenticate_user(email, password) do
       {:ok, user} ->
         conn
+        |> put_session(:current_user_id, user.id)
         |> put_status(:ok)
-        |> render(PmsApiWeb.UserView, "sign_in.json", user: user)
+        |> put_view(PmsApiWeb.UserView)
+        |> render("sign_in.json", user: user)
 
       {:error, message} ->
         conn
+        |> delete_session(:current_user_id)
         |> put_status(:unauthorized)
-        |> render(PmsApiWeb.ErrorView, "401.json", message: message)
+        |> put_view(PmsApiWeb.ErrorView)
+        |> render("401.json", message: message)
     end
   end
 end

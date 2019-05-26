@@ -19,7 +19,7 @@ defmodule PmsApiWeb.UserView do
 
   def render("sign_in.json", %{user: user}) do
     %{
-      date: %{
+      data: %{
         user: %{
           id: user.id,
           email: user.email,
@@ -27,9 +27,5 @@ defmodule PmsApiWeb.UserView do
         }
       }
     }
-  end
-
-  def render("401.json", %{message: message}) do
-    %{errors: %{detail: message}}
   end
 end
