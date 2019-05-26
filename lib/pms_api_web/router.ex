@@ -18,6 +18,7 @@ defmodule PmsApiWeb.Router do
   scope "/api", PmsApiWeb do
     pipe_through [:api, :api_auth]
     resources "/users", UserController, except: [:new, :edit]
+    resources "/toppings", ToppingController, except: [:new, :edit]
   end
 
   defp ensure_authenticated(conn, _opts) do
