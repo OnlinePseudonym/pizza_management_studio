@@ -11,9 +11,11 @@ defmodule PmsApiWeb.ToppingView do
   end
 
   def render("topping.json", %{topping: topping}) do
-    %{id: topping.id,
+    %{
+      id: topping.id,
       name: topping.name,
       description: topping.description,
-      tag: topping.tag}
+      tag: topping.tag
+    }
   end
 end

@@ -65,4 +65,67 @@ defmodule PmsApi.PizzasTest do
       assert %Ecto.Changeset{} = Pizzas.change_topping(topping)
     end
   end
+
+  describe "pizzas" do
+    alias PmsApi.Pizzas.Pizza
+
+    @valid_attrs %{description: "some description", name: "some name", toppings: []}
+    @update_attrs %{description: "some updated description", name: "some updated name", toppings: []}
+    @invalid_attrs %{description: nil, name: nil, toppings: nil}
+
+    def pizza_fixture(attrs \\ %{}) do
+      {:ok, pizza} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Pizzas.create_pizza()
+
+      pizza
+    end
+
+    test "list_pizzas/0 returns all pizzas" do
+      pizza = pizza_fixture()
+      assert Pizzas.list_pizzas() == [pizza]
+    end
+
+    test "get_pizza!/1 returns the pizza with given id" do
+      pizza = pizza_fixture()
+      assert Pizzas.get_pizza!(pizza.id) == pizza
+    end
+
+    test "create_pizza/1 with valid data creates a pizza" do
+      assert {:ok, %Pizza{} = pizza} = Pizzas.create_pizza(@valid_attrs)
+      assert pizza.description == "some description"
+      assert pizza.name == "some name"
+      assert pizza.toppings == []
+    end
+
+    test "create_pizza/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Pizzas.create_pizza(@invalid_attrs)
+    end
+
+    test "update_pizza/2 with valid data updates the pizza" do
+      pizza = pizza_fixture()
+      assert {:ok, %Pizza{} = pizza} = Pizzas.update_pizza(pizza, @update_attrs)
+      assert pizza.description == "some updated description"
+      assert pizza.name == "some updated name"
+      assert pizza.toppings == []
+    end
+
+    test "update_pizza/2 with invalid data returns error changeset" do
+      pizza = pizza_fixture()
+      assert {:error, %Ecto.Changeset{}} = Pizzas.update_pizza(pizza, @invalid_attrs)
+      assert pizza == Pizzas.get_pizza!(pizza.id)
+    end
+
+    test "delete_pizza/1 deletes the pizza" do
+      pizza = pizza_fixture()
+      assert {:ok, %Pizza{}} = Pizzas.delete_pizza(pizza)
+      assert_raise Ecto.NoResultsError, fn -> Pizzas.get_pizza!(pizza.id) end
+    end
+
+    test "change_pizza/1 returns a pizza changeset" do
+      pizza = pizza_fixture()
+      assert %Ecto.Changeset{} = Pizzas.change_pizza(pizza)
+    end
+  end
 end
