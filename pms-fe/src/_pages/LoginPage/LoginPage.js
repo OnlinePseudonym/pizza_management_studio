@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { userService } from '../_services/user.service';
-import Loading from '../_components/_images/loading';
+import { userService } from '../../_services/user.service';
+import Loading from '../../_components/_images/loading';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
     this.setState({ loading: true });
     userService
       .login(username, password)
-      .then(user => console.log(user), error => this.setState({ error, loading: false }));
+      .then(user => window.location.assign('/'), error => this.setState({ error, loading: false }));
   }
 
   render() {
