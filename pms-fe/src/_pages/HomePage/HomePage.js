@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Users from './_components/Users/Users';
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,7 @@ class HomePage extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!localStorage.getItem('user')) return;
 
     this.setState({
@@ -28,6 +30,7 @@ class HomePage extends React.Component {
     return (
       <div>
         <h1>Welcome {user.email}!</h1>
+        <Users />
         {user.isManager ? console.log('Manager ') : console.log('Not Manager')}
         <p>
           <button onClick={this.logout}>Logout</button>

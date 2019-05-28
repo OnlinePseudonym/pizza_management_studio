@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { userService } from '../../_services/user.service';
+import { loginService } from '../../_services/login.service';
 import Loading from '../../_components/_images/loading';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
 
-    userService.logout();
+    loginService.logout();
 
     this.state = {
-      username: '',
+      email: '',
       password: '',
       submitted: false,
       loading: false,
@@ -30,20 +30,23 @@ class LoginPage extends React.Component {
     e.preventDefault();
 
     this.setState({ submitted: true });
-    const { username, password } = this.state;
+    const { email, password } = this.state;
 
-    if (!(username && password)) {
+    if (!(email && password)) {
       return;
     }
 
     this.setState({ loading: true });
-    userService
-      .login(username, password)
-      .then(user => window.location.assign('/'), error => this.setState({ error, loading: false }));
+    loginService
+      .login(email, password)
+      .then(
+        user => window.location.assign('/'),
+        error => this.setState({ error: JSON.stringify(error), loading: false })
+      );
   }
 
   render() {
-    const { username, password, submitted, loading, error } = this.state;
+    const { email, password, submitted, loading, error } = this.state;
     if (error) {
       console.log(error);
     }
@@ -51,16 +54,16 @@ class LoginPage extends React.Component {
     return (
       <div>
         <div>
-          Username: {username}
+          email: {email}
           <br />
           Password: {password}
         </div>
         <h2>Login</h2>
         <form name="login-form" onSubmit={this.handleSubmit}>
           <div>
-            <label htmlFor="username">Username</label>
-            <input type="text" name="username" value={username} onChange={this.handleChange} />
-            {submitted && !username && <div>Username is required</div>}
+            <label htmlFor="email">Email Address</label>
+            <input type="text" name="email" value={email} onChange={this.handleChange} />
+            {submitted && !email && <div>Email is required</div>}
           </div>
           <div>
             <label htmlFor="password">Password</label>

@@ -1,41 +1,45 @@
-export const userService = { login, logout };
+export const userService = {
+  createUser,
+  deleteUser,
+  getUser,
+  getUsers,
+  updateUser
+};
 
-async function login(email, password) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
+const api_root = 'http://localhost:4000/api';
+
+function requestOptions(method, params) {
+  const options = {
+    method,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
   };
 
-  const response = await fetch('http://localhost:4000/api/users/sign_in', requestOptions);
-  const user = await handleResponse(response);
-
-  if (user) {
-    user.authdata = window.btoa(`${email}:${password}`);
-    localStorage.setItem('user', JSON.stringify(user));
+  if (params) {
+    options.body = JSON.stringify({ user: params });
   }
 
-  return user;
+  return options;
 }
 
-function logout() {
-  localStorage.removeItem('user');
+function deleteUser(id) {
+  return fetch(`${api_root}/users/${id}`, requestOptions('DELETE')).then(res => res);
 }
 
-function handleResponse(response) {
-  return response.text().then(text => {
-    const data = text && JSON.parse(text);
+function createUser(params) {
+  return fetch(`${api_root}/users`, requestOptions('POST', params)).then(res => res.json());
+}
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        logout();
-        //window.location.assign('/');
-      }
+function getUser(id) {
+  return fetch(`${api_root}/users/${id}`, requestOptions('GET')).then(res => res.json());
+}
 
-      const error = (data && data.errors.detail) || response.statusText;
-      return Promise.reject(error);
-    }
+function getUsers() {
+  return fetch(`${api_root}/users`, requestOptions('GET')).then(res => res.json());
+}
 
-    return data;
-  });
+function updateUser(id, params) {
+  return fetch(`${api_root}/users/${id}`, requestOptions('PUT', params)).then(res => res.json());
 }
