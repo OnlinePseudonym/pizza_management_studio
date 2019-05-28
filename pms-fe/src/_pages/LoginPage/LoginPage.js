@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { loginService } from '../../_services/login.service';
+import loginService from '../../_services/login.service';
 import Loading from '../../_components/_images/loading';
 
 class LoginPage extends React.Component {

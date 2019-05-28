@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Users from './_components/Users/Users';
+import Toppings from './_components/Toppings/Toppings';
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class HomePage extends React.Component {
       <div>
         <h1>Welcome {user.email}!</h1>
         <Users />
-        {user.isManager ? console.log('Manager ') : console.log('Not Manager')}
+        {user.isManager ? <Toppings /> : console.log('Not Manager')}
         <p>
           <button onClick={this.logout}>Logout</button>
         </p>

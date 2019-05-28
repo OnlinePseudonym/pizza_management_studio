@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userService } from '../../../../_services/user.service';
+import userService from '../../../../_services/user.service';
 import to from '../../../../_helpers/to';
 import User from './User';
 import AddUser from './AddUser';
@@ -54,7 +54,9 @@ class Users extends React.Component {
         <h2>User Management</h2>
         {this.state.isFetching && <div>Fetching Users</div>}
         {this.state.users.length > 0 &&
-          this.state.users.map(user => <User user={user} key={user.id} updateUsers={this.fetchUsers} />)}
+          this.state.users.map(user => (
+            <User user={user} key={user.id} userService={userService} updateUsers={this.fetchUsers} />
+          ))}
         {!this.state.addUser && (
           <button type="button" onClick={this.addUser}>
             Add User

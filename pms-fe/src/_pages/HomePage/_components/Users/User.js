@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { userService } from '../../../../_services/user.service';
 import EditUser from './EditUser';
 import to from '../../../../_helpers/to';
 
@@ -14,10 +13,11 @@ class User extends React.Component {
 
     this.editUser = this.editUser.bind(this);
     this.notEditing = this.notEditing.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
   }
 
   async deleteUser() {
-    const [err, response] = await to(userService.deleteUser(this.props.user.id));
+    const [err, response] = await to(this.props.userService.deleteUser(this.props.user.id));
 
     if (err) {
       console.error(err);
@@ -49,7 +49,7 @@ class User extends React.Component {
           <div>
             <EditUser
               updateUsers={this.props.updateUsers}
-              userService={userService}
+              userService={this.props.userService}
               userId={this.props.user.id}
               notEditing={this.notEditing}
             />

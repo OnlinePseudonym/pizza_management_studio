@@ -1,4 +1,4 @@
-export const userService = {
+const userService = {
   createUser,
   deleteUser,
   getUser,
@@ -24,22 +24,29 @@ function requestOptions(method, params) {
   return options;
 }
 
-function deleteUser(id) {
-  return fetch(`${api_root}/users/${id}`, requestOptions('DELETE')).then(res => res);
+async function deleteUser(id) {
+  const res = await fetch(`${api_root}/users/${id}`, requestOptions('DELETE'));
+  return res;
 }
 
-function createUser(params) {
-  return fetch(`${api_root}/users`, requestOptions('POST', params)).then(res => res.json());
+async function createUser(params) {
+  const res = await fetch(`${api_root}/users`, requestOptions('POST', params));
+  return await res.json();
 }
 
-function getUser(id) {
-  return fetch(`${api_root}/users/${id}`, requestOptions('GET')).then(res => res.json());
+async function getUser(id) {
+  const res = await fetch(`${api_root}/users/${id}`, requestOptions('GET'));
+  return await res.json();
 }
 
-function getUsers() {
-  return fetch(`${api_root}/users`, requestOptions('GET')).then(res => res.json());
+async function getUsers() {
+  const res = await fetch(`${api_root}/users`, requestOptions('GET'));
+  return await res.json();
 }
 
-function updateUser(id, params) {
-  return fetch(`${api_root}/users/${id}`, requestOptions('PUT', params)).then(res => res.json());
+async function updateUser(id, params) {
+  const res = await fetch(`${api_root}/users/${id}`, requestOptions('PUT', params));
+  return await res.json();
 }
+
+export default userService;

@@ -1,4 +1,4 @@
-export const loginService = { login, logout };
+const loginService = { login, logout };
 
 async function login(email, password) {
   const requestOptions = {
@@ -40,3 +40,5 @@ function handleResponse(response) {
     return data;
   });
 }
+
+export default loginService;
