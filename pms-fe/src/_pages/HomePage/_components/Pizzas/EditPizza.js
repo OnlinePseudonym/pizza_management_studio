@@ -1,15 +1,15 @@
 import React from 'react';
 
-import UserForm from './UserForm';
+import PizzaForm from './PizzaForm';
 
-class EditUser extends React.Component {
+class EditPizza extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: this.props.user.email,
-      password: '',
-      is_manager: this.props.user.is_manager,
+      name: this.props.pizza.name,
+      description: this.props.pizza.description,
+      toppings: this.props.pizza.toppings,
       loading: false,
       submitted: false,
       isAdd: false,
@@ -20,9 +20,12 @@ class EditUser extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {}
+
   handleChange(e) {
     const name = e.target.name;
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const value =
+      e.target.name === 'toppings' ? e.target.value.split(',').map(topping => topping.trim()) : e.target.value;
     this.setState({ [name]: value });
   }
 
@@ -35,7 +38,7 @@ class EditUser extends React.Component {
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
         const element = this.state[key];
-        if (element || key === 'is_manager') {
+        if (element) {
           params[key] = element;
         }
       }
@@ -43,19 +46,19 @@ class EditUser extends React.Component {
 
     this.setState({ loading: true });
 
-    this.props.userService.updateUser(this.props.user.id, params).then(
-      user => {
+    this.props.pizzaService.updatePizza(this.props.pizza.id, params).then(
+      pizza => {
         this.setState({ loading: false });
         this.props.notEditing();
-        this.props.updateUsers();
+        this.props.updatePizzas();
       },
       error => this.setState({ error: JSON.stringify(error), loading: false })
     );
   }
 
   render() {
-    return <UserForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
+    return <PizzaForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
   }
 }
 
-export default EditUser;
+export default EditPizza;

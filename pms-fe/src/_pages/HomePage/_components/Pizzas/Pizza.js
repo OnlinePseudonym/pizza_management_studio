@@ -1,9 +1,9 @@
 import React from 'react';
 
-import EditUser from './EditUser';
 import to from '../../../../_helpers/to';
+import EditPizza from './EditPizza';
 
-class User extends React.Component {
+class Pizza extends React.Component {
   constructor(props) {
     super(props);
 
@@ -11,23 +11,24 @@ class User extends React.Component {
       isEditing: false
     };
 
-    this.editUser = this.editUser.bind(this);
+    this.editPizza = this.editPizza.bind(this);
     this.notEditing = this.notEditing.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
+    this.deletePizza = this.deletePizza.bind(this);
   }
 
-  async deleteUser() {
-    const [err, response] = await to(this.props.userService.deleteUser(this.props.user.id));
+  async deletePizza() {
+    console.log(this);
+    const [err, response] = await to(this.props.pizzaService.deletePizza(this.props.pizza.id));
 
     if (err) {
       console.error(err);
     } else {
       console.log(response);
-      this.props.updateUsers();
+      this.props.updatePizzas();
     }
   }
 
-  editUser(e) {
+  editPizza(e) {
     this.setState({ isEditing: true });
   }
 
@@ -38,19 +39,19 @@ class User extends React.Component {
   render() {
     return (
       <div>
-        <div>{this.props.user.email}</div>
-        <button type="button" onClick={this.deleteUser}>
-          Delete User
+        <div>{this.props.pizza.name}</div>
+        <button type="button" onClick={this.deletePizza}>
+          Delete Pizza
         </button>
-        <button type="button" onClick={this.editUser}>
-          Edit User
+        <button type="button" onClick={this.editPizza}>
+          Edit Pizza
         </button>
         {this.state.isEditing && (
           <div>
-            <EditUser
-              updateUsers={this.props.updateUsers}
-              userService={this.props.userService}
-              user={this.props.user}
+            <EditPizza
+              updatePizzas={this.props.updatePizzas}
+              pizzaService={this.props.pizzaService}
+              pizza={this.props.pizza}
               notEditing={this.notEditing}
             />
             <button type="button" onClick={this.notEditing}>
@@ -63,4 +64,4 @@ class User extends React.Component {
   }
 }
 
-export default User;
+export default Pizza;

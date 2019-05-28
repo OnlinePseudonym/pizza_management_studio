@@ -32,7 +32,7 @@ class Toppings extends React.Component {
       console.error(err);
     }
 
-    if (!toppings) {
+    if (!toppings.data.length) {
       console.log('No Toppings found');
       this.setState({ isFetching: false });
       return;

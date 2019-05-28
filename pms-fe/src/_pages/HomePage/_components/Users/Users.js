@@ -20,14 +20,14 @@ class Users extends React.Component {
   }
 
   async fetchUsers() {
-    this.setState({ loading: false, addUser: false, isFetching: true });
+    this.setState({ addUser: false, isFetching: true });
     const [err, users] = await to(userService.getUsers());
 
     if (err) {
       console.error(err);
     }
 
-    if (!users) {
+    if (!users.data.length) {
       console.log('No users found');
       this.setState({ isFetching: false });
       return;
