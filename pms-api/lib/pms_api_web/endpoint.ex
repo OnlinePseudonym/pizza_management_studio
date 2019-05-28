@@ -42,6 +42,7 @@ defmodule PmsApiWeb.Endpoint do
 
   plug Corsica,
     origins: "http://localhost:3000",
+    allow_credentials: true,
     allow_headers: ["content-type"],
     log: [rejected: :error, invalid: :warn, accepted: :debug]
 
