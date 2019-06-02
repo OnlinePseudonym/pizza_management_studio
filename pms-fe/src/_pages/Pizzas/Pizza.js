@@ -1,6 +1,6 @@
 import React from 'react';
 
-import to from '../../../../_helpers/to';
+import to from '../../_helpers/to';
 import EditPizza from './EditPizza';
 
 class Pizza extends React.Component {

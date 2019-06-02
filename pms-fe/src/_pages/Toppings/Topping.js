@@ -1,6 +1,6 @@
 import React from 'react';
 
-import to from '../../../../_helpers/to';
+import to from '../../_helpers/to';
 import EditTopping from './EditTopping';
 
 class Topping extends React.Component {

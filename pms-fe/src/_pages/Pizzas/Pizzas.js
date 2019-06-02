@@ -1,7 +1,7 @@
 import React from 'react';
 
-import pizzaService from '../../../../_services/pizza.service';
-import to from '../../../../_helpers/to';
+import pizzaService from '../../_services/pizza.service';
+import to from '../../_helpers/to';
 import Pizza from './Pizza';
 import AddPizza from './AddPizzas';
 

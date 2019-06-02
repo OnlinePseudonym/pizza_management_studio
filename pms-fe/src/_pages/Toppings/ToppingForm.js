@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Loading from '../../../../_components/_images/loading';
+import Loading from '../../_components/_images/loading';
 
-function PizzaForm(props) {
-  const { name, description, toppings, loading, submitted, error, isAdd } = props.formData;
+function ToppingForm(props) {
+  const { name, description, tag, loading, submitted, error, isAdd } = props.formData;
 
   return (
-    <form name="add-pizza" onSubmit={props.handleSubmit}>
+    <form name="add-topping" onSubmit={props.handleSubmit}>
       <div>
         <label htmlFor="name">Name</label>
         <input type="text" name="name" value={name} onChange={props.handleChange} required={isAdd} />
@@ -18,11 +18,11 @@ function PizzaForm(props) {
         {isAdd && submitted && !description && <div>Description is required</div>}
       </div>
       <div>
-        <label htmlFor="toppings">Toppings</label>
-        <input type="text" name="toppings" value={toppings} onChange={props.handleChange} />
+        <label htmlFor="tag">Tags</label>
+        <input type="text" name="tag" value={tag} onChange={props.handleChange} />
       </div>
       <div>
-        <button disabled={loading}>{isAdd ? 'Add Pizza' : 'Update Pizza'}</button>
+        <button disabled={loading}>{isAdd ? 'Add Topping' : 'Update Topping'}</button>
         {loading && <Loading />}
       </div>
       {error && <div>{error}</div>}
@@ -30,4 +30,4 @@ function PizzaForm(props) {
   );
 }
 
-export default PizzaForm;
+export default ToppingForm;

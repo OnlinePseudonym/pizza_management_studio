@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EditUser from './EditUser';
-import to from '../../../../_helpers/to';
+import to from '../../_helpers/to';
 
 class User extends React.Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import userService from '../../../../_services/user.service';
-import to from '../../../../_helpers/to';
+import userService from '../../_services/user.service';
+import to from '../../_helpers/to';
 import User from './User';
 import AddUser from './AddUser';
 

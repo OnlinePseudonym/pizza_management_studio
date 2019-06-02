@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Loading from '../../../../_components/_images/loading';
+import Loading from '../../_components/_images/loading';
 
 function UserForm(props) {
   const { email, password, is_manager, loading, submitted, error, isAdd } = props.formData;

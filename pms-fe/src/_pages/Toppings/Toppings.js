@@ -1,7 +1,7 @@
 import React from 'react';
 
-import toppingService from '../../../../_services/topping.service';
-import to from '../../../../_helpers/to';
+import toppingService from '../../_services/topping.service';
+import to from '../../_helpers/to';
 import Topping from './Topping';
 import AddTopping from './AddToppings';
 
