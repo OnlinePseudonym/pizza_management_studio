@@ -1,6 +1,5 @@
 import React from 'react';
-
-import Loading from '../../_components/_images/loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function PizzaForm(props) {
   const { name, description, toppings, loading, submitted, error, isAdd } = props.formData;
@@ -23,7 +22,7 @@ function PizzaForm(props) {
       </div>
       <div>
         <button disabled={loading}>{isAdd ? 'Add Pizza' : 'Update Pizza'}</button>
-        {loading && <Loading />}
+        {loading && <FontAwesomeIcon icon="cog" spin />}
       </div>
       {error && <div>{error}</div>}
     </form>

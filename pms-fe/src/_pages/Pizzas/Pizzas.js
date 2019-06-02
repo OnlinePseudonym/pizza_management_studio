@@ -51,7 +51,7 @@ class Pizzas extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="section">
         <h2>Pizza Management</h2>
         {this.state.isFetching && <div>Fetching Pizzas</div>}
         {this.state.pizzas.length > 0 &&

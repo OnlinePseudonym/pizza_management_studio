@@ -1,7 +1,7 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import loginService from '../../../_services/login.service';
-import Loading from '../../../_components/_images/loading';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -72,7 +72,7 @@ class LoginPage extends React.Component {
           </div>
           <div>
             <button disabled={loading}>Login</button>
-            {loading && <Loading />}
+            {loading && <FontAwesomeIcon icon="cog" spin />}
           </div>
           {error && <div>{error}</div>}
         </form>

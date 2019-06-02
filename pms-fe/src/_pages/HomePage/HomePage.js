@@ -28,11 +28,8 @@ class HomePage extends React.Component {
     const { user } = this.state;
 
     return localStorage.getItem('user') ? (
-      <div>
+      <div className="section">
         <h1>Welcome {user.email}!</h1>
-        <p>
-          <button onClick={this.logout}>Logout</button>
-        </p>
       </div>
     ) : (
       <LoginPage />

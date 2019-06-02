@@ -1,7 +1,7 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import EditUser from './EditUser';
-import to from '../../_helpers/to';
 
 class User extends React.Component {
   constructor(props) {
@@ -11,53 +11,38 @@ class User extends React.Component {
       isEditing: false
     };
 
-    this.editUser = this.editUser.bind(this);
-    this.notEditing = this.notEditing.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
+    this.toggleEditing = this.toggleEditing.bind(this);
   }
 
-  async deleteUser() {
-    const [err, response] = await to(this.props.userService.deleteUser(this.props.user.id));
+  toggleEditing(e) {
+    e.preventDefault();
 
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(response);
-      this.props.updateUsers();
-    }
-  }
-
-  editUser(e) {
-    this.setState({ isEditing: true });
-  }
-
-  notEditing() {
-    this.setState({ isEditing: false });
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
   render() {
     return (
-      <div>
-        <div>{this.props.user.email}</div>
-        <button type="button" onClick={this.deleteUser}>
-          Delete User
-        </button>
-        <button type="button" onClick={this.editUser}>
-          Edit User
-        </button>
-        {this.state.isEditing && (
-          <div>
-            <EditUser
-              updateUsers={this.props.updateUsers}
-              userService={this.props.userService}
-              user={this.props.user}
-              notEditing={this.notEditing}
-            />
-            <button type="button" onClick={this.notEditing}>
-              close
+      <div className="panel-block">
+        <div className="box container">
+          <div className="columns" style={{ justifyContent: 'space-between' }}>
+            <p className="subtitle is-2">{this.props.user.email}</p>
+            <button className="button" onClick={this.toggleEditing}>
+              <span className="icon is-small">
+                <FontAwesomeIcon icon="angle-down" />
+              </span>
             </button>
           </div>
-        )}
+          {this.state.isEditing && (
+            <div>
+              <EditUser
+                toggleEditing={this.toggleEditing}
+                updateUsers={this.props.updateUsers}
+                userService={this.props.userService}
+                user={this.props.user}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

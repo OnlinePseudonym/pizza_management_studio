@@ -29,7 +29,6 @@ class AddUser extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this);
     this.setState({ submitted: true });
     const { email, password, is_manager } = this.state;
 
@@ -44,7 +43,18 @@ class AddUser extends React.Component {
   }
 
   render() {
-    return <UserForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
+    return (
+      <div className="container">
+        <div className="box">
+          <UserForm
+            toggleAdding={this.props.toggleAdding}
+            formData={this.state}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

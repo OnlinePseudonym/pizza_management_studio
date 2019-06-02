@@ -35,7 +35,7 @@ class EditUser extends React.Component {
     for (const key in this.state) {
       if (this.state.hasOwnProperty(key)) {
         const element = this.state[key];
-        if (element || key === 'is_manager') {
+        if (key !== 'submitted' && (element || key === 'is_manager')) {
           params[key] = element;
         }
       }
@@ -46,7 +46,7 @@ class EditUser extends React.Component {
     this.props.userService.updateUser(this.props.user.id, params).then(
       user => {
         this.setState({ loading: false });
-        this.props.notEditing();
+        this.props.toggleEditing();
         this.props.updateUsers();
       },
       error => this.setState({ error: JSON.stringify(error), loading: false })
@@ -54,7 +54,16 @@ class EditUser extends React.Component {
   }
 
   render() {
-    return <UserForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
+    return (
+      <UserForm
+        user={this.props.user}
+        formData={this.state}
+        userService={this.props.userService}
+        updateUsers={this.props.updateUsers}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
+    );
   }
 }
 

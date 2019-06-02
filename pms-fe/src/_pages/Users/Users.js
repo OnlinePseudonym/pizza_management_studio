@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import userService from '../../_services/user.service';
 import to from '../../_helpers/to';
@@ -11,16 +12,18 @@ class Users extends React.Component {
 
     this.state = {
       users: [],
+      filter: '',
       isFetching: false,
-      addUser: false
+      isAdding: false
     };
 
-    this.addUser = this.addUser.bind(this);
+    this.toggleAdding = this.toggleAdding.bind(this);
     this.fetchUsers = this.fetchUsers.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async fetchUsers() {
-    this.setState({ addUser: false, isFetching: true });
+    this.setState({ isAdding: false, isFetching: true });
     const [err, users] = await to(userService.getUsers());
 
     if (err) {
@@ -40,29 +43,56 @@ class Users extends React.Component {
     this.fetchUsers();
   }
 
-  addUser() {
-    if (this.state.addUser) {
-      this.setState({ addUser: false });
-    } else {
-      this.setState({ addUser: true });
-    }
+  toggleAdding() {
+    this.setState({ isAdding: !this.state.isAdding });
+  }
+
+  handleChange(e) {
+    this.setState({ filter: e.target.value });
   }
 
   render() {
     return (
-      <div>
-        <h2>User Management</h2>
-        {this.state.isFetching && <div>Fetching Users</div>}
-        {this.state.users.length > 0 &&
-          this.state.users.map(user => (
-            <User user={user} key={user.id} userService={userService} updateUsers={this.fetchUsers} />
-          ))}
-        {!this.state.addUser && (
-          <button type="button" onClick={this.addUser}>
-            Add User
-          </button>
-        )}
-        {this.state.addUser && <AddUser updateUsers={this.fetchUsers} userService={userService} />}
+      <div className="section">
+        <div className="panel">
+          <h2 className="panel-heading">User Management</h2>
+          <div className="panel-block">
+            <p className="control has-icons-left">
+              <input
+                className="input is-small"
+                type="text"
+                placeholder="search"
+                value={this.state.filter}
+                onChange={this.handleChange}
+              />
+              <span className="icon is-small is-left" style={{ padding: '0.4rem' }}>
+                <FontAwesomeIcon icon="search" />
+              </span>
+            </p>
+          </div>
+          {this.state.isFetching && (
+            <div>
+              <FontAwesomeIcon icon="cog" spin />
+              Fetching Users
+            </div>
+          )}
+          {this.state.users.length > 0 &&
+            this.state.users
+              .filter(user => user.email.includes(this.state.filter))
+              .map(user => <User user={user} key={user.id} userService={userService} updateUsers={this.fetchUsers} />)}
+          {!this.state.isAdding && (
+            <div className="panel-block">
+              <button className="button is-link is-outlined is-fullwidth" type="button" onClick={this.toggleAdding}>
+                Add User
+              </button>
+            </div>
+          )}
+          {this.state.isAdding && (
+            <div className="panel-block">
+              <AddUser toggleAdding={this.toggleAdding} updateUsers={this.fetchUsers} userService={userService} />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

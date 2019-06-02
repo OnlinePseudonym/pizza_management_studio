@@ -51,7 +51,7 @@ class Toppings extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="section">
         <h2>Topping Management</h2>
         {this.state.isFetching && <div>Fetching Toppings</div>}
         {this.state.toppings.length > 0 &&

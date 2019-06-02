@@ -1,6 +1,5 @@
 import React from 'react';
-
-import Loading from '../../_components/_images/loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function ToppingForm(props) {
   const { name, description, tag, loading, submitted, error, isAdd } = props.formData;
@@ -23,7 +22,7 @@ function ToppingForm(props) {
       </div>
       <div>
         <button disabled={loading}>{isAdd ? 'Add Topping' : 'Update Topping'}</button>
-        {loading && <Loading />}
+        {loading && <FontAwesomeIcon icon="cog" spin />}
       </div>
       {error && <div>{error}</div>}
     </form>
