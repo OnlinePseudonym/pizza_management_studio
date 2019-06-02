@@ -16,7 +16,7 @@ defmodule PmsApi.Auth.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :is_active, :is_manager, :password])
-    |> validate_required([:email, :is_active, :is_manager, :password])
+    |> validate_required([:email, :is_active, :is_manager])
     |> unique_constraint(:email)
     |> put_password_hash()
   end
