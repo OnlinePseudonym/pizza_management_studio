@@ -1,7 +1,9 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import to from '../../_helpers/to';
+import TextInput from '../../_components/TextInput';
+import TextArea from '../../_components/TextArea';
+import PanelBlockButtons from '../../_components/PanelBlockButtons';
 
 class ToppingForm extends React.Component {
   constructor(props) {
@@ -11,13 +13,11 @@ class ToppingForm extends React.Component {
   }
 
   async delete() {
-    console.log(this);
     const [err, response] = await to(this.props.toppingService.deleteTopping(this.props.topping.id));
 
     if (err) {
       console.error(err);
     } else {
-      console.log(response);
       this.props.updateToppings();
     }
   }
@@ -27,26 +27,20 @@ class ToppingForm extends React.Component {
 
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <div className="field">
-          <label className="label" htmlFor="name">
-            Name
-          </label>
-          <input className="input" type="text" name="name" value={name} onChange={this.props.handleChange} required />
-          {isAdd && submitted && !name && <div>Name is required</div>}
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            className="textarea"
-            name="description"
-            value={description}
-            onChange={this.props.handleChange}
-            required={isAdd}
-          />
-          {isAdd && submitted && !description && <div>Description is required</div>}
-        </div>
+        <TextInput
+          value={name}
+          label={'Name'}
+          handleChange={this.props.handleChange}
+          isRequired={isAdd}
+          submitted={submitted}
+        />
+        <TextArea
+          value={description}
+          label={'Description'}
+          handleChange={this.props.handleChange}
+          isRequired={isAdd}
+          submitted={submitted}
+        />
         <div className="field">
           <label className="label">Tags</label>
           {tags.length > 0 && (
@@ -71,27 +65,7 @@ class ToppingForm extends React.Component {
             Add Tag
           </button>
         </div>
-        <div className="field is-grouped" style={{ paddingTop: '1.6rem' }}>
-          <div className="control">
-            <button disabled={loading} type="submit" className="button">
-              Save
-            </button>
-          </div>
-          {isAdd ? (
-            <div className="control">
-              <button type="button" className="button" onClick={this.props.toggleAdding}>
-                Close
-              </button>
-            </div>
-          ) : (
-            <div className="control">
-              <button type="button" className="button" onClick={this.deleteUser}>
-                Delete
-              </button>
-            </div>
-          )}
-          {loading && <FontAwesomeIcon icon="cog" spin />}
-        </div>
+        <PanelBlockButtons delete={this.delete} toggle={this.props.toggleAdding} loading={loading} isAdd={isAdd} />
         {error && <div>{error}</div>}
       </form>
     );

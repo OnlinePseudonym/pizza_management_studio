@@ -1,7 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import EditUser from './EditUser';
+import PanelBlock from '../../_components/PanelBlock';
 
 class User extends React.Component {
   constructor(props) {
@@ -22,28 +22,14 @@ class User extends React.Component {
 
   render() {
     return (
-      <div className="panel-block">
-        <div className="box container">
-          <div className="columns" style={{ justifyContent: 'space-between' }}>
-            <p className="subtitle is-6">{this.props.user.email}</p>
-            <button className="button" onClick={this.toggleEditing}>
-              <span className="icon is-small">
-                <FontAwesomeIcon icon="angle-down" />
-              </span>
-            </button>
-          </div>
-          {this.state.isEditing && (
-            <div>
-              <EditUser
-                toggleEditing={this.toggleEditing}
-                updateUsers={this.props.updateUsers}
-                userService={this.props.userService}
-                user={this.props.user}
-              />
-            </div>
-          )}
-        </div>
-      </div>
+      <PanelBlock name={this.props.user.email} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing}>
+        <EditUser
+          toggleEditing={this.toggleEditing}
+          updateUsers={this.props.updateUsers}
+          userService={this.props.userService}
+          user={this.props.user}
+        />
+      </PanelBlock>
     );
   }
 }

@@ -36,7 +36,6 @@ class EditTopping extends React.Component {
 
     const tag = this.state.tag;
     const tags = [...this.state.tags];
-    console.log(tag);
     tags.push(tag.toLowerCase());
     this.setState({ tags, tag: '' });
   }
@@ -72,7 +71,6 @@ class EditTopping extends React.Component {
 
     this.props.toppingService.updateTopping(this.props.topping.id, params).then(
       topping => {
-        console.log(topping);
         this.setState({ loading: false });
         this.props.toggleEditing();
         this.props.updateToppings();

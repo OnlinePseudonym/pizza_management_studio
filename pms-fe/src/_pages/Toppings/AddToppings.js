@@ -9,29 +9,47 @@ class AddTopping extends React.Component {
     this.state = {
       name: '',
       description: '',
-      tag: [],
+      tag: '',
+      tags: [],
       loading: false,
       submitted: false,
       error: '',
       isAdd: true
     };
 
+    this.addTag = this.addTag.bind(this);
+    this.removeTage = this.removeTag.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
     const name = e.target.name;
-    const value = e.target.name === 'tag' ? [e.target.value] : e.target.value;
+    const value = e.target.value;
     this.setState({ [name]: value });
+  }
+
+  addTag(e) {
+    if (!this.state.tag) return;
+
+    const tag = this.state.tag;
+    const tags = [...this.state.tags];
+    tags.push(tag.toLowerCase());
+    this.setState({ tags, tag: '' });
+  }
+
+  removeTag(e, i) {
+    const tags = this.state.tags;
+    tags.splice(i, 1);
+
+    this.setState({ tags });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this);
     this.setState({ submitted: true });
-    const { name, description, tag } = this.state;
+    const { name, description, tags } = this.state;
 
     if (!(name && description)) {
       return;
@@ -39,7 +57,7 @@ class AddTopping extends React.Component {
 
     this.setState({ loading: true });
     this.props.toppingService
-      .createTopping({ name, description, tag })
+      .createTopping({ name, description, tag: tags })
       .then(
         topping => this.props.updateToppings(),
         error => this.setState({ error: JSON.stringify(error), loading: false })
@@ -51,6 +69,8 @@ class AddTopping extends React.Component {
       <ToppingForm
         toggleAdding={this.props.toggleAdding}
         formData={this.state}
+        addTag={this.addTag}
+        removeTag={this.removeTag}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />
