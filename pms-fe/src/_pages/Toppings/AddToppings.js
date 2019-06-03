@@ -47,7 +47,14 @@ class AddTopping extends React.Component {
   }
 
   render() {
-    return <ToppingForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
+    return (
+      <ToppingForm
+        toggleAdding={this.props.toggleAdding}
+        formData={this.state}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
+    );
   }
 }
 

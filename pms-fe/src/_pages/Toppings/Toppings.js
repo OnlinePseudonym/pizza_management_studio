@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import toppingService from '../../_services/topping.service';
 import to from '../../_helpers/to';
@@ -11,13 +12,15 @@ class Toppings extends React.Component {
 
     this.state = {
       loading: false,
-      addTopping: false,
+      isAdding: false,
       isFetching: false,
+      filter: '',
       toppings: []
     };
 
     this.fetchToppings = this.fetchToppings.bind(this);
-    this.addTopping = this.addTopping.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.toggleAdding = this.toggleAdding.bind(this);
   }
 
   componentDidMount() {
@@ -25,7 +28,7 @@ class Toppings extends React.Component {
   }
 
   async fetchToppings() {
-    this.setState({ loading: false, addTopping: false, isFetching: true });
+    this.setState({ loading: false, isAdding: false, isFetching: true });
     const [err, toppings] = await to(toppingService.getToppings());
 
     if (err) {
@@ -41,34 +44,68 @@ class Toppings extends React.Component {
     this.setState({ toppings: toppings.data, isFetching: false });
   }
 
-  addTopping() {
-    if (this.state.addTopping) {
-      this.setState({ addTopping: false });
-    } else {
-      this.setState({ addTopping: true });
-    }
+  toggleAdding() {
+    this.setState({ isAdding: !this.state.isAdding });
+  }
+
+  handleChange(e) {
+    this.setState({ filter: e.target.value });
   }
 
   render() {
     return (
       <div className="section">
-        <h2>Topping Management</h2>
-        {this.state.isFetching && <div>Fetching Toppings</div>}
-        {this.state.toppings.length > 0 &&
-          this.state.toppings.map(topping => (
-            <Topping
-              topping={topping}
-              toppingService={toppingService}
-              updateToppings={this.fetchToppings}
-              key={topping.id}
-            />
-          ))}
-        {!this.state.addTopping && (
-          <button type="button" onClick={this.addTopping}>
-            Add Topping
-          </button>
-        )}
-        {this.state.addTopping && <AddTopping updateToppings={this.fetchToppings} toppingService={toppingService} />}
+        <div className="panel">
+          <h2 className="panel-heading">Topping Management</h2>
+          <div className="panel-block">
+            <p className="control has-icons-left">
+              <input
+                className="input is-small"
+                type="text"
+                placeholder="search"
+                value={this.state.filter}
+                onChange={this.handleChange}
+              />
+              <span className="icon is-small is-left" style={{ padding: '0.4rem' }}>
+                <FontAwesomeIcon icon="search" />
+              </span>
+            </p>
+          </div>
+          {this.state.isFetching && (
+            <div>
+              <FontAwesomeIcon icon="cog" spin />
+              Fetching Toppings
+            </div>
+          )}
+          {this.state.toppings.length > 0 &&
+            this.state.toppings
+              .filter(topping => topping.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+              .map(topping => (
+                <Topping
+                  topping={topping}
+                  toppingService={toppingService}
+                  updateToppings={this.fetchToppings}
+                  key={topping.id}
+                />
+              ))}
+          {!this.state.isAdding && (
+            <div className="panel-block">
+              <button className="button is-link is-outlined is-fullwidth" type="button" onClick={this.toggleAdding}>
+                Add Topping
+              </button>
+            </div>
+          )}
+          {this.state.isAdding && (
+            <div className="panel-block">
+              <AddTopping
+                pizzas={this.state.pizzas}
+                toggleAdding={this.toggleAdding}
+                updateToppings={this.fetchToppings}
+                toppingService={toppingService}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

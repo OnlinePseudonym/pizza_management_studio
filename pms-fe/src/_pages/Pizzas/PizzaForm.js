@@ -37,7 +37,7 @@ class PizzaForm extends React.Component {
     const filteredToppings = this.state.tag
       ? this.props.toppings.filter(topping => topping.tag.includes(this.state.tag))
       : this.props.toppings;
-    const tags = [...new Set(this.props.toppings.map(topping => topping.tag[0]))];
+    const tags = [...new Set(this.props.toppings.map(topping => topping.tag).flat())];
 
     return (
       <form name="add-pizza" onSubmit={this.props.handleSubmit}>

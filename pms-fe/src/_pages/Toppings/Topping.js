@@ -1,6 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import to from '../../_helpers/to';
 import EditTopping from './EditTopping';
 
 class Topping extends React.Component {
@@ -11,54 +11,36 @@ class Topping extends React.Component {
       isEditing: false
     };
 
-    this.editTopping = this.editTopping.bind(this);
-    this.notEditing = this.notEditing.bind(this);
-    this.deleteTopping = this.deleteTopping.bind(this);
+    this.toggleEditing = this.toggleEditing.bind(this);
   }
 
-  async deleteTopping() {
-    console.log(this);
-    const [err, response] = await to(this.props.toppingService.deleteTopping(this.props.topping.id));
-
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(response);
-      this.props.updateToppings();
-    }
-  }
-
-  editTopping(e) {
-    this.setState({ isEditing: true });
-  }
-
-  notEditing() {
-    this.setState({ isEditing: false });
+  toggleEditing() {
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
   render() {
     return (
-      <div>
-        <div>{this.props.topping.name}</div>
-        <button type="button" onClick={this.deleteTopping}>
-          Delete Topping
-        </button>
-        <button type="button" onClick={this.editTopping}>
-          Edit Topping
-        </button>
-        {this.state.isEditing && (
-          <div>
-            <EditTopping
-              updateToppings={this.props.updateToppings}
-              toppingService={this.props.toppingService}
-              topping={this.props.topping}
-              notEditing={this.notEditing}
-            />
-            <button type="button" onClick={this.notEditing}>
-              close
+      <div className="panel-block">
+        <div className="box container">
+          <div className="columns" style={{ justifyContent: 'space-between' }}>
+            <p className="subtitle is-6">{this.props.topping.name}</p>
+            <button className="button" onClick={this.toggleEditing}>
+              <span className="icon is-small">
+                <FontAwesomeIcon icon="angle-down" />
+              </span>
             </button>
           </div>
-        )}
+          {this.state.isEditing && (
+            <div>
+              <EditTopping
+                updateToppings={this.props.updateToppings}
+                toppingService={this.props.toppingService}
+                topping={this.props.topping}
+                toggleEditing={this.toggleEditing}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }
