@@ -18,19 +18,25 @@ class AddPizza extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGroupCheckboxChange = this.handleGroupCheckboxChange.bind(this);
   }
 
   handleChange(e) {
     const name = e.target.name;
-    const value =
-      e.target.name === 'toppings' ? e.target.value.split(',').map(topping => topping.trim()) : e.target.value;
+    const value = e.target.value;
     this.setState({ [name]: value });
+  }
+
+  handleGroupCheckboxChange(e) {
+    const value = parseInt(e.target.value);
+    let toppings = [...this.state.toppings];
+    e.target.checked ? toppings.push(value) : (toppings = toppings.filter(x => x !== value));
+    this.setState({ toppings });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log(this);
     this.setState({ submitted: true });
     const { name, description, toppings } = this.state;
 
@@ -48,7 +54,16 @@ class AddPizza extends React.Component {
   }
 
   render() {
-    return <PizzaForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
+    return (
+      <PizzaForm
+        toggleAdding={this.props.toggleAdding}
+        toppings={this.props.toppings}
+        formData={this.state}
+        handleChange={this.handleChange}
+        handleGroupCheckboxChange={this.handleGroupCheckboxChange}
+        handleSubmit={this.handleSubmit}
+      />
+    );
   }
 }
 

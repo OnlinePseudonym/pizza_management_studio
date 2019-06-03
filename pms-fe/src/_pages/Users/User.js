@@ -25,7 +25,7 @@ class User extends React.Component {
       <div className="panel-block">
         <div className="box container">
           <div className="columns" style={{ justifyContent: 'space-between' }}>
-            <p className="subtitle is-2">{this.props.user.email}</p>
+            <p className="subtitle is-6">{this.props.user.email}</p>
             <button className="button" onClick={this.toggleEditing}>
               <span className="icon is-small">
                 <FontAwesomeIcon icon="angle-down" />

@@ -1,6 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import to from '../../_helpers/to';
 import EditPizza from './EditPizza';
 
 class Pizza extends React.Component {
@@ -11,54 +11,37 @@ class Pizza extends React.Component {
       isEditing: false
     };
 
-    this.editPizza = this.editPizza.bind(this);
-    this.notEditing = this.notEditing.bind(this);
-    this.deletePizza = this.deletePizza.bind(this);
+    this.toggleEditing = this.toggleEditing.bind(this);
   }
 
-  async deletePizza() {
-    console.log(this);
-    const [err, response] = await to(this.props.pizzaService.deletePizza(this.props.pizza.id));
-
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(response);
-      this.props.updatePizzas();
-    }
-  }
-
-  editPizza(e) {
-    this.setState({ isEditing: true });
-  }
-
-  notEditing() {
-    this.setState({ isEditing: false });
+  toggleEditing(e) {
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
   render() {
     return (
-      <div>
-        <div>{this.props.pizza.name}</div>
-        <button type="button" onClick={this.deletePizza}>
-          Delete Pizza
-        </button>
-        <button type="button" onClick={this.editPizza}>
-          Edit Pizza
-        </button>
-        {this.state.isEditing && (
-          <div>
-            <EditPizza
-              updatePizzas={this.props.updatePizzas}
-              pizzaService={this.props.pizzaService}
-              pizza={this.props.pizza}
-              notEditing={this.notEditing}
-            />
-            <button type="button" onClick={this.notEditing}>
-              close
+      <div className="panel-block">
+        <div className="box container">
+          <div className="columns" style={{ justifyContent: 'space-between' }}>
+            <p className="subtitle is-6">{this.props.pizza.name}</p>
+            <button className="button" onClick={this.toggleEditing}>
+              <span className="icon is-small">
+                <FontAwesomeIcon icon="angle-down" />
+              </span>
             </button>
           </div>
-        )}
+          {this.state.isEditing && (
+            <div>
+              <EditPizza
+                updatePizzas={this.props.updatePizzas}
+                pizzaService={this.props.pizzaService}
+                pizza={this.props.pizza}
+                toppings={this.props.toppings}
+                toggleEditing={this.toggleEditing}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

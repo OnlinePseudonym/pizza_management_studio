@@ -17,6 +17,7 @@ class EditPizza extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleGroupCheckboxChange = this.handleGroupCheckboxChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -24,9 +25,15 @@ class EditPizza extends React.Component {
 
   handleChange(e) {
     const name = e.target.name;
-    const value =
-      e.target.name === 'toppings' ? e.target.value.split(',').map(topping => topping.trim()) : e.target.value;
+    const value = e.target.value;
     this.setState({ [name]: value });
+  }
+
+  handleGroupCheckboxChange(e) {
+    const value = parseInt(e.target.value);
+    let toppings = [...this.state.toppings];
+    e.target.checked ? toppings.push(value) : (toppings = toppings.filter(x => x !== value));
+    this.setState({ toppings });
   }
 
   handleSubmit(e) {
@@ -49,7 +56,7 @@ class EditPizza extends React.Component {
     this.props.pizzaService.updatePizza(this.props.pizza.id, params).then(
       pizza => {
         this.setState({ loading: false });
-        this.props.notEditing();
+        this.props.toggleEditing();
         this.props.updatePizzas();
       },
       error => this.setState({ error: JSON.stringify(error), loading: false })
@@ -57,7 +64,18 @@ class EditPizza extends React.Component {
   }
 
   render() {
-    return <PizzaForm formData={this.state} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />;
+    return (
+      <PizzaForm
+        pizza={this.props.pizza}
+        toppings={this.props.toppings}
+        formData={this.state}
+        pizzaService={this.props.pizzaService}
+        handleChange={this.handleChange}
+        handleGroupCheckboxChange={this.handleGroupCheckboxChange}
+        handleSubmit={this.handleSubmit}
+        updatePizzas={this.props.updatePizzas}
+      />
+    );
   }
 }
 

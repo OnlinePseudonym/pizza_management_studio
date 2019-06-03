@@ -43,7 +43,7 @@ class UserForm extends React.Component {
         </div>
         <div className="field">
           <label className="label" htmlFor="password">
-            <span>*</span> Password
+            {isAdd && <span>*</span>} Password
           </label>
           <input
             className="input"

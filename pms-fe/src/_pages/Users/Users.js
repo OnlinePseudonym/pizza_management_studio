@@ -78,7 +78,7 @@ class Users extends React.Component {
           )}
           {this.state.users.length > 0 &&
             this.state.users
-              .filter(user => user.email.includes(this.state.filter))
+              .filter(user => user.email.toLowerCase().includes(this.state.filter.toLowerCase()))
               .map(user => <User user={user} key={user.id} userService={userService} updateUsers={this.fetchUsers} />)}
           {!this.state.isAdding && (
             <div className="panel-block">
