@@ -42,7 +42,9 @@ defmodule PmsApi.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:corsica, "~> 1.0"}
+      {:corsica, "~> 1.0"},
+      {:edeliver, "~> 1.6.0"},
+      {:distillery, "~> 2.0", warn_missing: false}
     ]
   end
 
